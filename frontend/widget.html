@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRUVAD Copilot — AI Regulatory Assistant</title>
+  <meta name="description" content="TRUVAD Copilot: AI Regulatory Compliance Assistant." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="chat-widget.css?v=7" />
+
+  <style>
+    :root {
+      --bg-canvas: #090D16;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --accent-indigo: #6366F1;
+      --accent-cyan: #38BDF8;
+      --accent-emerald: #10B981;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg-canvas);
+      background-image: 
+        radial-gradient(at 15% 25%, rgba(99, 102, 241, 0.12) 0px, transparent 55%),
+        radial-gradient(at 85% 75%, rgba(56, 189, 248, 0.09) 0px, transparent 55%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-main);
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    nav {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      border-bottom: 1px solid var(--border-color);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-tag {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: rgba(99, 102, 241, 0.15);
+      color: #818CF8;
+      border: 1px solid rgba(99, 102, 241, 0.25);
+    }
+
+    .nav-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 10px var(--accent-emerald);
+    }
+
+    /* Simple Features List Container */
+    .features-container {
+      max-width: 820px;
+      margin: 48px auto 80px;
+      padding: 0 24px;
+    }
+
+    .section-intro {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .intro-badge {
+      display: inline-block;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(99, 102, 241, 0.12);
+      color: #818CF8;
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      margin-bottom: 14px;
+      letter-spacing: 0.02em;
+    }
+
+    .section-intro h1 {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+      background: linear-gradient(180deg, #FFFFFF 0%, #CBD5E1 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .section-intro p {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .features-list-card {
+      background: rgba(17, 25, 44, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 28px 30px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .features-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .features-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--text-muted);
+    }
+
+    .features-list strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .check-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #10B981;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 20px; }
+      .section-intro h1 { font-size: 26px; }
+      .features-container { margin: 32px auto 60px; }
+      .features-list-card { padding: 20px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="brand">
+      <span>TRUVAD</span>
+      <span class="brand-tag">Regulatory AI</span>
+    </div>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      <span>API Connected</span>
+    </div>
+  </nav>
+
+  <main class="features-container">
+    <header class="section-intro">
+      <span class="intro-badge">✨ Core Features</span>
+      <h1>Updated Bot Features</h1>
+      <p>
+        Key capabilities and recent enhancements in GRIP AI Copilot.
+      </p>
+    </header>
+
+    <div class="features-list-card">
+      <ul class="features-list">
+        <li>
+          <span class="check-icon">✓</span>
+          <div>
+            <strong>Standardized 4-Part Output:</strong> Every answer delivers a factual response, exact source citations, effective enforcement dates, and impacted corporate teams.
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">✓</span>
+          <div>
+            <strong>Exact Legal Source Citations:</strong> Primary legal references with direct URLs and specific clauses across EUR-Lex, NIST, MeitY, ISO, SEBI, and RBI.
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">✓</span>
+          <div>
+            <strong>Multi-Framework Scope:</strong> Comprehensive reasoning across EU AI Act, NIST AI RMF 1.0, India DPDP Act 2023, ISO/IEC 42001, SEBI, and RBI guidelines.
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">✓</span>
+          <div>
+            <strong>Expanded Widescreen View:</strong> Maximize/restore button in the header to expand the chat panel for comfortable reading of detailed clauses.
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">✓</span>
+          <div>
+            <strong>Dark & Light Mode Toggle:</strong> Instant theme switcher in the header with persistent local preferences.
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">✓</span>
+          <div>
+            <strong>One-Click Answer Copying:</strong> Copy button on assistant responses with instant visual checkmark feedback.
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">✓</span>
+          <div>
+            <strong>Persistent Suggestion Chips:</strong> 3 quick-start prompt chips in 2 centered rows that remain visible at the top throughout the session.
+          </div>
+        </li>
+      </ul>
+    </div>
+  </main>
+
+  <!-- Embed Widget Script -->
+  <script src="chat-widget.js?v=7" data-api-url="http://localhost:8000"></script>
+</body>
+</html>
